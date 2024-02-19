@@ -11,7 +11,10 @@ def get_file_list(path):
         for file in files:
             if os.path.splitext(file)[1] == '.csv' or os.path.splitext(file)[1] == '.json':
                 file_list.append(path + '/' + file)
-    read_file(file_list)
+    while file_list:
+        read_file(file_list)
+    else:
+        print("the file is not exist!")
 
 
 # def read_csv(csv_file_list):
@@ -39,20 +42,31 @@ def get_file_list(path):
 def read_file(file_list):
     """根据文件类型分别读取文件，获取坐标"""
     for file in file_list:
+        # coordinates = []
+        # if os.path.splitext(file)[1] == '.csv':
+        #     try:
+        #         with open(file) as f:
+        #             coordinates = create_coordinates(csv.DictReader(f))
+        #     except FileNotFoundError:
+        #         print("the file does not exist")
+        # elif os.path.splitext(file)[1] == '.json':
+        #     try:
+        #         with open(file) as f:
+        #             coordinates = create_coordinates(json.load(f))
+        #     except FileNotFoundError:
+        #         print("the file does not exist")
+        # create_kml(coordinates, file)
         coordinates = []
-        if os.path.splitext(file)[1] == '.csv':
-            try:
-                with open(file) as f:
+        try:
+            with open(file) as f:
+                if os.path.splitext(file)[1] == '.csv':
                     coordinates = create_coordinates(csv.DictReader(f))
-            except FileNotFoundError:
-                print("the file does not exist")
-        elif os.path.splitext(file)[1] == '.json':
-            try:
-                with open(file) as f:
+                else:
                     coordinates = create_coordinates(json.load(f))
-            except FileNotFoundError:
-                print("the file does not exist")
+        except:
+            print("the file does not exist")
         create_kml(coordinates, file)
+
 
 
 def create_coordinates(data):
