@@ -43,16 +43,15 @@ def read_file(file_list):
         if os.path.splitext(file)[1] == '.csv':
             try:
                 with open(file) as f:
-                    data = csv.DictReader(f)
+                    coordinates = create_coordinates(csv.DictReader(f))
             except FileNotFoundError:
                 print("the file does not exist")
         elif os.path.splitext(file)[1] == '.json':
             try:
                 with open(file) as f:
-                    data = json.load(f)
+                    coordinates = create_coordinates(json.load(f))
             except FileNotFoundError:
                 print("the file does not exist")
-        coordinates = create_coordinates(data)
         create_kml(coordinates, file)
 
 
